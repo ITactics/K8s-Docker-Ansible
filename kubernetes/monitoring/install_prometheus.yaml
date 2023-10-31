@@ -17,7 +17,7 @@
         dest: "/tmp/prometheus.tar.gz"
 
     - name: Распаковать Prometheus
-      command: "tar xzvf /tmp/prometheus.tar.gz -C /tmp/"
+      command: "tar -zxf prometheus-*.linux-amd64.tar.gz"
       args:
         creates: "/tmp/prometheus-2.45.0.linux-amd64/"
 
