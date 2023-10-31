@@ -17,7 +17,7 @@
 3. Внесите необходимые изменения в файл `hosts.ini`, чтобы определить целевые хосты.
 4. Запустите Ansible-скрипт с помощью команды:
 ```
-ansible-playbook -i hosts.ini site.yaml
+ansible-playbook -i hosts.ini k8s-docker-install.yaml
 ```
 ## Предостережения
 
@@ -34,6 +34,11 @@ ansible-playbook -i hosts.ini site.yaml
 - Импорт дашбордов Grafana
 
 Для использования плейбука, убедитесь, что Grafana уже настроена и доступна. Вставьте соответствующие JSON-конфигурации для дашбордов в плейбук. 
+
+Команда для запуска установки и настройки Grafana и Prometheus:
+```
+ansible-playbook -i hosts.ini grafana-prometheus-setup.yaml
+```
 
 **Примечание**: С задачами Ansible для Grafana и Prometheus можно ознакомиться в папке "monitoring" внутри репозитория.
 
