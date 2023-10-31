@@ -32,10 +32,10 @@
         - promtool
       notify: Reload Prometheus
 
-   - name: Скопировать конфигурацию Prometheus
-  copy:
-    src: /tmp/prometheus-2.45.0.linux-amd64/prometheus-2.45.0.linux-amd64/prometheus.yml
-    dest: /etc/prometheus/prometheus.yml
+    - name: Скопировать конфигурацию Prometheus
+      copy:
+        src: /tmp/prometheus-2.45.0.linux-amd64/prometheus-2.45.0.linux-amd64/prometheus.yml
+        dest: /etc/prometheus/prometheus.yml
 
     - name: Создать systemd unit файл для Prometheus
       template:
