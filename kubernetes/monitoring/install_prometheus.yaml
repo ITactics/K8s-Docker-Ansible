@@ -12,17 +12,19 @@
         - /var/lib/prometheus
 
     - name: Загрузить и распаковать Prometheus
-      get_url:
-        url: https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz
-        dest: /tmp/prometheus.tar.gz
+      shell: wget https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz -O /tmp/prometheus.tar.gz
+      async: 1800
+      poll: 0
       register: download_prometheus
+      until: download_prometheus.finished
+      retries: 10
 
     - name: Распаковать архив Prometheus
       unarchive:
         src: /tmp/prometheus.tar.gz
         dest: /tmp/
         remote_src: yes
-      when: download_prometheus.changed
+      when: download_prometheus.rc == 0
 
     - name: Установить Prometheus бинарники
       command: >
@@ -34,7 +36,7 @@
 
     - name: Скопировать конфигурацию Prometheus
       copy:
-        src: /tmp/prometheus-2.45.0.linux-amd64/prometheus-2.45.0.linux-amd64/prometheus.yml
+        src: /tmp/prometheus-2.45.0.linux-amd64/prometheus.yml
         dest: /etc/prometheus/prometheus.yml
 
     - name: Создать systemd unit файл для Prometheus
