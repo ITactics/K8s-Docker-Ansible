@@ -22,6 +22,48 @@
 - Убедитесь, что ваши целевые хосты соответствуют требованиям Kubernetes.
 - Этот скрипт предназначен для использования в тестовых или разработочных средах.
 
+
+## Установка и Настройка Grafana
+
+Проект также включает Ansible-плейбук для установки и настройки системы мониторинга Grafana. Плейбук выполняет следующие действия:
+
+- Установка Prometheus
+- Установка Grafana
+- Импорт дашбордов Grafana
+
+Для использования плейбука, убедитесь, что Grafana уже настроена и доступна. Вставьте соответствующие JSON-конфигурации для дашбордов в плейбук.
+
+```yaml
+- name: Импортировать дашборды Grafana
+  uri:
+    url: http://grafana.monitoring.svc.cluster.local/api/dashboards/import
+    method: POST
+    body_format: json
+    body: '{
+      "dashboard": {
+        "editable": true,
+        "gnetId": null,
+        "id": null,
+        "panels": [...],  // Описание панелей дашборда
+        "refresh": "10s",
+        "schemaVersion": 16,
+        "style": "dark",
+        "tags": [],
+        "templating": {
+          "list": [...],  // Переменные для шаблонов
+          "enable": true
+        },
+        "title": "My Dashboard",
+        "timezone": "browser",
+        "uid": "my-dashboard",
+        "version": 8
+      },
+      "overwrite": false
+    }'  # JSON-конфиг для импорта дашбордов
+    status_code: 200
+
+Замените [...] на реальные данные и настройки для ваших дашбордов.
+
 ## Лицензия
 
 Этот проект лицензирован в соответствии с [лицензией GPL-3.0](LICENSE).
