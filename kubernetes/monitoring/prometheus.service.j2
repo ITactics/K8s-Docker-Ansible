@@ -16,3 +16,8 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
+
+
+TASK [Скопировать конфигурацию Prometheus] *****************************************************************************************************************************
+An exception occurred during task execution. To see the full traceback, use -vvv. The error was: If you are using a module and expect the file to exist on the remote, see the remote_src option
+fatal: [dbsrv1]: FAILED! => {"changed": false, "msg": "Could not find or access '/tmp/prometheus-2.45.0.linux-amd64/prometheus.yml' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
