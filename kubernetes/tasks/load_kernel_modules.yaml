@@ -1,0 +1,13 @@
+---
+- name: Загрузить модуль br_netfilter
+  modprobe:
+    name: br_netfilter
+ 
+- name: Загрузить модуль overlay
+  modprobe:
+    name: overlay
+
+
+- name: Load br_netfilter module
+  shell: modprobe br_netfilter
+  ignore_errors: yes
