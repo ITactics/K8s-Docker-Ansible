@@ -1,1 +1,55 @@
+- name: Установить Prometheus
+  community.general.helm:
+    name: prometheus
+    chart_ref: stable/prometheus
+    namespace: monitoring
+    values:
+      server:
+        serviceMonitor:
+          enabled: true
 
+- name: Установить Grafana
+  community.general.helm:
+    name: grafana
+    chart_ref: stable/grafana
+    namespace: monitoring
+    values:
+      datasources:
+        datasources.yaml:
+          apiVersion: 1
+          datasources:
+            - name: Prometheus
+              type: prometheus
+              access: proxy
+              orgId: 1
+              url: http://prometheus-server.monitoring.svc.cluster.local
+              isDefault: true
+
+- name: Импортировать дашборды Grafana
+  uri:
+    url: http://grafana.monitoring.svc.cluster.local/api/dashboards/import
+    method: POST
+    body_format: json
+    body: '{
+  "dashboard": {
+    "editable": true,
+    "gnetId": null,
+    "id": null,
+    "panels": [...],  // Описание панелей дашборда
+    "refresh": "10s",
+    "schemaVersion": 16,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [...],  // Переменные для шаблонов
+      "enable": true
+    },
+    "title": "My Dashboard",
+    "timezone": "browser",
+    "uid": "my-dashboard",
+    "version": 8
+  },
+  "overwrite": false
+}
+'  # JSON-конфиг для импорта дашбордов
+    status_code: 200
