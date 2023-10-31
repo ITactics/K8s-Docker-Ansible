@@ -30,5 +30,26 @@
     url: http://grafana.monitoring.svc.cluster.local/api/dashboards/import
     method: POST
     body_format: json
-    body: '{"dashboard": ...}'  # JSON-конфиг для импорта дашбордов
+    body: '{
+  "dashboard": {
+    "editable": true,
+    "gnetId": null,
+    "id": null,
+    "panels": [...],  // Описание панелей дашборда
+    "refresh": "10s",
+    "schemaVersion": 16,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [...],  // Переменные для шаблонов
+      "enable": true
+    },
+    "title": "My Dashboard",
+    "timezone": "browser",
+    "uid": "my-dashboard",
+    "version": 8
+  },
+  "overwrite": false
+}
+'  # JSON-конфиг для импорта дашбордов
     status_code: 200
