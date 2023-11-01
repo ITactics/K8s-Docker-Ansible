@@ -1,0 +1,57 @@
+---
+- name: Установить Alertmanager
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Создать директории для Alertmanager
+      file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - /etc/alertmanager
+        - /var/lib/prometheus/alertmanager
+
+    - name: Загрузить Alertmanager
+      get_url:
+        url: "https://github.com/prometheus/alertmanager/releases/download/v0.25.0/alertmanager-0.25.0.linux-amd64.tar.gz"
+        dest: "/tmp/alertmanager.tar.gz"
+
+    - name: Распаковать Alertmanager
+      command: "tar -zxf alertmanager-*.linux-amd64.tar.gz"
+      args:
+        creates: "/tmp/alertmanager-0.25.0.linux-amd64/"
+
+    - name: Установить Alertmanager бинарники
+      command: "cp /tmp/alertmanager-0.25.0.linux-amd64/alertmanager /usr/local/bin/"
+    
+    - name: Скопировать конфигурацию Alertmanager
+      copy:
+        src: "/tmp/alertmanager-0.25.0.linux-amd64/alertmanager.yml"
+        dest: "/etc/alertmanager/alertmanager.yml"
+
+    - name: Создать systemd unit файл для Alertmanager
+      template:
+        src: alertmanager.service.j2
+        dest: "/etc/systemd/system/alertmanager.service"
+
+    - name: Создать Alertmanager пользователя
+      user:
+        name: alertmanager
+        shell: /bin/false
+        system: yes
+
+    - name: Настроить права доступа к каталогам Alertmanager
+      file:
+        path: "{{ item }}"
+        owner: alertmanager
+        group: alertmanager
+        recurse: yes
+      loop:
+        - /etc/alertmanager
+        - /var/lib/prometheus/alertmanager
+
+  handlers:
+    - name: Reload Alertmanager
+      systemd:
+        name: alertmanager
+        state: restarted
