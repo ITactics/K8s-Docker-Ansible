@@ -16,3 +16,8 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
+
+
+
+TASK [Распаковать Alertmanager] ************************************************
+fatal: [dbsrv1]: FAILED! => {"changed": true, "cmd": ["tar", "-zxf", "alertmanager-*.linux-amd64.tar.gz"], "delta": "0:00:00.029810", "end": "2023-11-01 13:45:08.408187", "msg": "non-zero return code", "rc": 2, "start": "2023-11-01 13:45:08.378377", "stderr": "tar (child): alertmanager-*.linux-amd64.tar.gz: Функция open завершилась с ошибкой: No such file or directory\ntar (child): Error is not recoverable: exiting now\ntar: Child returned status 2\ntar: Error is not recoverable: exiting now", "stderr_lines": ["tar (child): alertmanager-*.linux-amd64.tar.gz: Функция open завершилась с ошибкой: No such file or directory", "tar (child): Error is not recoverable: exiting now", "tar: Child returned status 2", "tar: Error is not recoverable: exiting now"], "stdout": "", "stdout_lines": []}
