@@ -6,5 +6,5 @@
   tasks:
     - name: Копировать файл правил предупреждений
       copy:
-        src: /home/max/my-ansible/prometheus/alert.rules.yml
+        src: /путь/к/вашему/файлу/alert.rules.yml
         dest: /etc/prometheus/alert.rules.yml
