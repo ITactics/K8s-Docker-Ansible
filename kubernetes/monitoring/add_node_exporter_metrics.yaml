@@ -3,14 +3,8 @@
   hosts: localhost
   become: yes
   tasks:
-    - name: Добавить конфигурацию сбора метрик от Node Exporter в prometheus.yml
-      lineinfile:
-        path: /etc/prometheus/prometheus.yml
-        line: "{{ item }}"
-      loop:
-        - "  - job_name: 'node_exporter_clients'"
-        - "    scrape_interval: 5s"
-        - "    static_configs:"
-        - "      - targets:"
-        - "          - ipaddress:9100"
-      insertbefore: '^scrape_configs:' # Вставляем перед секцией scrape_configs
+    - name: Создать шаблон конфигурации Prometheus
+      template:
+        src: prometheus.yml.j2
+        dest: /etc/prometheus/prometheus.yml
+      backup: yes
