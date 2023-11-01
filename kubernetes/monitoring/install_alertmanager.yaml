@@ -57,5 +57,5 @@
   handlers:
     - name: Reload Alertmanager
       systemd:
-        name: alertmanager
+        name: alertmanager.service
         state: restarted
