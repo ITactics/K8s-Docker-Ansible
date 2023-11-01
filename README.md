@@ -61,7 +61,7 @@ kubectl create namespace monitoring
 ### Запуск плейбука
 Для настройки Grafana и Prometheus в Kubernetes с использованием плейбука, используйте следующую команду:
 ```
-ansible-playbook -i hosts.ini grafana-prometheus-setup.yaml
+ansible-playbook -i hosts.ini prometheus-grafana-setup.yaml
 ```
 
 **Примечание**: С задачами Ansible для Grafana и Prometheus можно ознакомиться в папке "monitoring" внутри репозитория.
