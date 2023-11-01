@@ -45,7 +45,8 @@
         group: nodeusr
 
   handlers:
-    - name: Reload Node Exporter
+    - name: Включить Node Exporter в автозагрузку
       systemd:
-        name: node_exporter.service
-        state: restarted
+        name: node_exporter
+        enabled: yes
+        state: started
