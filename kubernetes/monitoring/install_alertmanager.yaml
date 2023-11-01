@@ -55,7 +55,8 @@
         - /var/lib/prometheus/alertmanager
 
   handlers:
-    - name: Reload Alertmanager
+    - name: Включить Alertmanager в автозагрузку
       systemd:
-        name: alertmanager.service
-        state: restarted
+        name: alertmanager
+        enabled: yes
+        state: started
