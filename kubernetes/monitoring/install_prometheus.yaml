@@ -1,3 +1,4 @@
+---
 - name: Установить Prometheus
   hosts: localhost
   become: yes
