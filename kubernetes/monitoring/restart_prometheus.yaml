@@ -1,0 +1,9 @@
+---
+- name: Перезапустить Prometheus
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Перезапустить сервис Prometheus
+      systemd:
+        name: prometheus
+        state: restarted
