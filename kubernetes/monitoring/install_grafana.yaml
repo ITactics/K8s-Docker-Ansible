@@ -3,23 +3,19 @@
   hosts: localhost
   become: yes
   tasks:
-    - name: Создать директории для Grafana
-      file:
-        path: "{{ item }}"
-        state: directory
-      loop:
-        - /etc/grafana
-        - /var/lib/grafana
-        - /var/log/grafana
-
-    - name: Создать репозиторий Grafana
-      yum_repository:
-        name: grafana
-        description: Grafana Repository
-        baseurl: https://packages.grafana.com/oss/rpm
-        gpgcheck: yes
-        enabled: yes
-        gpgkey: https://packages.grafana.com/gpg.key
+    - name: Создать файл конфигурации репозитория Grafana
+      copy:
+        content: |
+          [grafana]
+          name=grafana
+          baseurl=https://packages.grafana.com/oss/rpm
+          repo_gpgcheck=1
+          enabled=1
+          gpgcheck=1
+          gpgkey=https://packages.grafana.com/gpg.key
+          sslverify=1
+          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+        dest: /etc/yum.repos.d/grafana.repo
       notify: Reload Grafana Repo
 
     - name: Установить Grafana
@@ -34,12 +30,6 @@
         permanent: yes
         state: enabled
       notify: Reload Firewalld
-
-    - name: Включить автозапуск Grafana
-      systemd:
-        name: grafana-server
-        enabled: yes
-        state: started
 
   handlers:
     - name: Reload Grafana Repo
