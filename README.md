@@ -27,13 +27,36 @@ ansible-playbook -i hosts.ini k8s-docker-install.yaml
 
 ## Установка и Настройка Grafana и Prometheus
 
-Проект включает Ansible-плейбук для настройки систем мониторинга Grafana и Prometheus в кластере Kubernetes. Плейбук выполняет следующие действия:
+Проект включает Ansible-плейбук для настройки систем мониторинга Grafana и Prometheus в кластере Kubernetes. Плейбук `prometheus-grafana-setup.yaml` выполняет следующие действия:
 
 1. Настраивает Prometheus с использованием Helm.
 2. Настраивает Grafana с использованием Helm.
 3. Импортирует дашборды Grafana, указанные в JSON-конфигурации.
 
 Установка и подготовка самих Prometheus и Grafana для работы в Kubernetes выполняется отдельно. Убедитесь, что Prometheus и Grafana уже установлены и настроены на ваших серверах перед запуском плейбука.
+
+### Шаг 1: Установка Helm
+
+Для установки Helm 3 на вашем сервере CentOS 8 с использованием `wget`, выполните следующие шаги:
+
+1. Скачайте архив с Helm 3:
+
+```
+wget https://get.helm.sh/helm-v3.7.0-linux-amd64.tar.gz
+```
+
+Распакуйте архив и переместите исполняемый файл helm в каталог, доступный в вашей системе:
+```
+tar -xvf helm-v3.7.0-linux-amd64.tar.gz
+mv linux-amd64/helm /usr/local/bin/helm
+```
+Убедитесь, что замените 3.7.0 на актуальную версию Helm, если это необходимо.
+
+### Шаг 2: Настройка Kubernetes
+Удостоверьтесь, что ваш кластер Kubernetes работает, и неймспейс monitoring существует. Если его нет, вы можете создать его с помощью команды:
+```
+kubectl create namespace monitoring
+```
 
 Для настройки Grafana и Prometheus в Kubernetes с использованием плейбука, используйте следующую команду:
 ```
