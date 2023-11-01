@@ -17,7 +17,10 @@
         dest: "/tmp/alertmanager.tar.gz"
 
     - name: Распаковать Alertmanager
-      command: "tar -zxf /tmp/alertmanager.tar.gz"
+      unarchive:
+        src: /tmp/alertmanager.tar.gz
+        dest: /tmp/
+        remote_src: yes
       args:
         creates: "/tmp/alertmanager-0.25.0.linux-amd64/"
 
