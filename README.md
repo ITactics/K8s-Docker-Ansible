@@ -47,7 +47,7 @@ wget https://get.helm.sh/helm-v3.7.0-linux-amd64.tar.gz
 
 Распакуйте архив и переместите исполняемый файл helm в каталог, доступный в вашей системе:
 ```
-tar -xvf helm-v3.7.0-linux-amd64.tar.gz
+tar -zxf helm-v3.7.0-linux-amd64.tar.gz
 mv linux-amd64/helm /usr/local/bin/helm
 ```
 Убедитесь, что замените 3.7.0 на актуальную версию Helm, если это необходимо.
