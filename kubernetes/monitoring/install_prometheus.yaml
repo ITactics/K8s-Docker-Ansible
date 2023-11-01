@@ -58,7 +58,8 @@
         - /var/lib/prometheus
 
   handlers:
-    - name: Reload Prometheus
+    - name: Включить Prometheus в автозагрузку
       systemd:
-        name: prometheus.service
-        state: restarted
+        name: prometheus
+        enabled: yes
+        state: started
