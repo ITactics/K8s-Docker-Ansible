@@ -1,0 +1,61 @@
+---
+- name: Установить Grafana
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Создать директории для Grafana
+      file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - /etc/grafana
+        - /var/lib/grafana
+        - /var/log/grafana
+
+    - name: Создать репозиторий Grafana
+      yum_repository:
+        name: grafana
+        description: Grafana Repository
+        baseurl: https://packages.grafana.com/oss/rpm
+        gpgcheck: yes
+        enabled: yes
+        gpgkey: https://packages.grafana.com/gpg.key
+      notify: Reload Grafana Repo
+
+    - name: Установить Grafana
+      yum:
+        name: grafana
+        state: latest
+      notify: Start Grafana
+
+    - name: Открыть порт 3000 в брандмауэре
+      firewalld:
+        port: 3000/tcp
+        permanent: yes
+        state: enabled
+      notify: Reload Firewalld
+
+    - name: Включить автозапуск Grafana
+      systemd:
+        name: grafana-server
+        enabled: yes
+        state: started
+
+  handlers:
+    - name: Reload Grafana Repo
+      systemd:
+        name: grafana-server
+        state: restarted
+        enabled: yes
+
+    - name: Start Grafana
+      systemd:
+        name: grafana-server
+        state: started
+        enabled: yes
+
+    - name: Reload Firewalld
+      systemd:
+        name: firewalld
+        state: reloaded
+        enabled: yes
