@@ -1,5 +1,12 @@
 # /etc/prometheus/prometheus.yml.j2
+global:
+  scrape_interval: 15s
+
 scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
   - job_name: 'node_exporter_clients'
     scrape_interval: 5s
     static_configs:
