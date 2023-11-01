@@ -16,7 +16,3 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-
-
-TASK [Установить Alertmanager бинарники] ***************************************
-fatal: [dbsrv1]: FAILED! => {"changed": true, "cmd": ["cp", "/tmp/alertmanager-0.25.0.linux-amd64/alertmanager", "/usr/local/bin/"], "delta": "0:00:00.059095", "end": "2023-11-01 13:57:42.434549", "msg": "non-zero return code", "rc": 1, "start": "2023-11-01 13:57:42.375454", "stderr": "cp: не удалось выполнить stat для '/tmp/alertmanager-0.25.0.linux-amd64/alertmanager': No such file or directory", "stderr_lines": ["cp: не удалось выполнить stat для '/tmp/alertmanager-0.25.0.linux-amd64/alertmanager': No such file or directory"], "stdout": "", "stdout_lines": []}
