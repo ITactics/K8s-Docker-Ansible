@@ -58,6 +58,7 @@ mv linux-amd64/helm /usr/local/bin/helm
 kubectl create namespace monitoring
 ```
 
+### Запуск плейбука
 Для настройки Grafana и Prometheus в Kubernetes с использованием плейбука, используйте следующую команду:
 ```
 ansible-playbook -i hosts.ini grafana-prometheus-setup.yaml
