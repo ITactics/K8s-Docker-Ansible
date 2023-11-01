@@ -1,0 +1,51 @@
+---
+- name: Установить Node Exporter
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Создать директории для Node Exporter
+      file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - /usr/local/bin
+        - /etc/systemd/system
+
+    - name: Загрузить Node Exporter
+      get_url:
+        url: "https://github.com/prometheus/node_exporter/releases/download/v1.6.1/node_exporter-1.6.1.linux-amd64.tar.gz"
+        dest: "/tmp/node_exporter.tar.gz"
+
+    - name: Распаковать Node Exporter
+      unarchive:
+        src: /tmp/node_exporter.tar.gz
+        dest: /tmp/
+        remote_src: yes
+      args:
+        creates: "/tmp/node_exporter-1.6.1.linux-amd64/"
+
+    - name: Установить Node Exporter бинарник
+      command: "cp /tmp/node_exporter-1.6.1.linux-amd64/node_exporter /usr/local/bin/"
+
+    - name: Создать systemd unit файл для Node Exporter
+      template:
+        src: node_exporter.service.j2
+        dest: "/etc/systemd/system/node_exporter.service"
+
+    - name: Создать Node Exporter пользователя
+      user:
+        name: nodeusr
+        shell: /bin/false
+        system: yes
+
+    - name: Настроить права доступа к исполняемому файлу Node Exporter
+      file:
+        path: /usr/local/bin/node_exporter
+        owner: nodeusr
+        group: nodeusr
+
+  handlers:
+    - name: Reload Node Exporter
+      systemd:
+        name: node_exporter.service
+        state: restarted
