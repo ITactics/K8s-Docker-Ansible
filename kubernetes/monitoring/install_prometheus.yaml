@@ -1,4 +1,3 @@
----
 - name: Установить Prometheus
   hosts: localhost
   become: yes
@@ -17,7 +16,10 @@
         dest: "/tmp/prometheus.tar.gz"
 
     - name: Распаковать Prometheus
-      command: "tar -zxf /tmp/prometheus.tar.gz"
+      unarchive:
+        src: /tmp/prometheus.tar.gz
+        dest: /tmp/
+        remote_src: yes
       args:
         creates: "/tmp/prometheus-2.45.0.linux-amd64/"
 
@@ -31,6 +33,7 @@
       copy:
         src: "/tmp/prometheus-2.45.0.linux-amd64/prometheus.yml"
         dest: "/etc/prometheus/prometheus.yml"
+        remote_src: yes
 
     - name: Создать systemd unit файл для Prometheus
       template:
