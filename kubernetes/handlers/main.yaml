@@ -1,5 +1,0 @@
----
-- name: Restart kubelet service
-  service:
-    name: kubelet
-    state: restarted
