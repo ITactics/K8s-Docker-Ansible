@@ -1,0 +1,10 @@
+---
+- name: Конфигурировать правила предупреждений в Prometheus
+  hosts: localhost
+  become: yes
+
+ tasks:
+  - name: Копировать файл правил предупреждений
+    copy:
+      src: /home/max/my-ansible/prometheus/alert.rules.yml
+      dest: /etc/prometheus/alert.rules.yml
