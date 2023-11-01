@@ -1,0 +1,8 @@
+# /etc/prometheus/prometheus.yml.j2
+scrape_configs:
+  - job_name: 'node_exporter_clients'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+        - 192.168.0.14:9100
+        - 192.168.0.15:9100
