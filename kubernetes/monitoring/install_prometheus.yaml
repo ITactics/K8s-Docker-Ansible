@@ -60,5 +60,5 @@
   handlers:
     - name: Reload Prometheus
       systemd:
-        name: prometheus
+        name: prometheus.service
         state: restarted
