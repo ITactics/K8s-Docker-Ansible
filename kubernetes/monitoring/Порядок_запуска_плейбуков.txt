@@ -26,9 +26,6 @@ systemctl enable prometheus --now
 systemctl enable alertmanager --now
 systemctl enable node_exporter --now
 
-
-
-
 Статус Prometheus
 systemctl status prometheus
 
