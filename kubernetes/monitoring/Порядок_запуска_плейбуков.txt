@@ -1,0 +1,39 @@
+Запустите плейбук для установки Prometheus:
+ansible-playbook prometheus/install_prometheus.yaml
+
+Запустите плейбук для установки Alertmanager:
+ansible-playbook prometheus/install_alertmanager.yaml
+
+Запустите плейбук для установки Node Exporter:
+ansible-playbook prometheus/install_node_exporter.yaml
+
+Запустите плейбук для настройки Prometheus Alert Rules:
+ansible-playbook prometheus/configure_prometheus_alert_rules.yaml
+
+Запустите плейбук для добавления метрик Node Exporter:
+ansible-playbook prometheus/add_node_exporter_metrics.yaml
+
+Запустите плейбук для перезапуска Prometheus:
+ansible-playbook prometheus/restart_prometheus.yaml
+
+После выполнения плейбуков, вручную выполните следующие команды, чтобы включить и запустить службы:
+
+Включение и запуск службы Prometheus:
+systemctl enable prometheus --now
+systemctl enable alertmanager --now
+systemctl enable node_exporter --now
+
+
+
+
+Статус Prometheus
+systemctl status prometheus
+
+Статус Alertmanager
+systemctl status alertmanager
+
+Статус Node Exporter:
+systemctl status node_exporter
+
+Статус Grafana:
+systemctl status grafana-server.service
