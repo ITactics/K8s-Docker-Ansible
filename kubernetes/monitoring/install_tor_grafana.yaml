@@ -1,6 +1,6 @@
 ---
 - name: Установка Tor и Grafana
-  hosts: dbsrv3
+  hosts: localhost
   become: yes
  
   tasks:
