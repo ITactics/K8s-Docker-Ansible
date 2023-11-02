@@ -1,0 +1,61 @@
+---
+- name: Установка Tor и Grafana
+  hosts: dbsrv3
+  become: yes
+ 
+  tasks:
+    - name: Установка EPEL-репозитория
+      dnf:
+        name: epel-release
+        state: present
+ 
+    - name: Создание файла репозитория для Tor
+      template:
+        src: tor.repo.j2
+        dest: /etc/yum.repos.d/tor.repo
+ 
+    - name: Установка Tor
+      dnf:
+        name: tor
+        state: present
+ 
+    - name: Включение и запуск службы Tor
+      systemd:
+        name: tor
+        enabled: yes
+        state: started
+ 
+    - name: Редактирование конфигурационного файла Tor
+      lineinfile:
+        path: /etc/tor/torrc
+        line: "{{ item }}"
+        state: present
+      loop:
+        - "SOCKSPort 9050"
+        - "SOCKSPolicy accept 192.168.0.0/16"
+        - "SOCKSPolicy reject *"
+ 
+    - name: Перезапуск службы Tor
+      systemd:
+        name: tor
+        state: restarted
+ 
+    - name: Установка дополнительных пакетов
+      dnf:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - golang
+        - policycoreutils-python-utils
+ 
+    - name: Установка Grafana
+      dnf:
+        name: grafana
+        state: present
+ 
+    - name: Включение и запуск службы Grafana
+      systemd:
+        name: grafana-server
+        enabled: yes
+        state: started
