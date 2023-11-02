@@ -1,3 +1,6 @@
+Запустите плейбук для установки Tor и Grafana:
+ansible-playbook install_tor_grafana.yaml
+
 Запустите плейбук для установки Prometheus:
 ansible-playbook prometheus/install_prometheus.yaml
 
